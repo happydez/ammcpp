@@ -1,6 +1,4 @@
-#ifndef _NUMERICS_
 #include "numerics.h"
-#endif
 
 // N ----> 10
 int ToBase10(std::string num, int base)

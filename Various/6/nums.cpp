@@ -1,6 +1,4 @@
-#ifndef _NUMS_
 #include "nums.h"
-#endif
 
 std::string to_n(int num, int base) 
 {
@@ -14,7 +12,7 @@ std::string to_n(int num, int base)
 
         if (k >= 10)
         {
-            res = base16[k % 10] + res;
+            res = nums_16[k % 10] + res;
         }
         else
         {

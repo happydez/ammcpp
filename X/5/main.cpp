@@ -15,7 +15,6 @@ char* reverse(const char s[], int size)
 int countWords(const char* s, int size)
 {
     int words = 0;
-    bool isfirst = true;
 
     for (int i = 0; i < size; i++)
     {
@@ -50,7 +49,7 @@ int main()
 {
     // Golang C# .Net Hello World
     //         Golang     C# C++         C Hello World        /
-    char t[] = "Golang C# .Net Hello World";
+    char t[] = "         Golang     C# C++         Hello World       ";
     int size = sizeof(t)/sizeof(char);
 
     auto reversed = reverse(t, size);

@@ -9,7 +9,7 @@ int to_10(string num, int base)
 
     for (int i = 0; i < num.length(); i++)
     {
-        res += (int)(num[i] - '0') * pow(base, index);
+        res += (int)(num[i] - '0') * pow(base, id);
         id--;
     }
 
@@ -24,7 +24,7 @@ int main()
     int num10 = to_10("1AFF", 16);
     cout << "In 10 base: " << num10 << endl;
 
-    int num8 = to_n(num10, 8);
+    std::string num8 = to_n(num10, 8);
     cout << "In 8 base: " << num8 << endl;
 
     return 0;
