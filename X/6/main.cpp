@@ -1,7 +1,5 @@
-
 #include "numerics.h"
 
-// 10 ---> N
 std::string ToBaseN(int num, int base) 
 {
     if ((base <= 1) || (base >= 17))

@@ -74,7 +74,14 @@ double AvarageNetComponentPrice(NetComponent components[], int size)
 
 double NetComponentsSummary(NetComponent c[], int size)
 {
-    return AvarageNetComponentPrice(c, size) + MinNetComponentPrice(c, size) + MaxNetComponentPrice(c, size);
+    double sum = 0.0;
+
+    for (int i = 0; i < size; i++)
+    {
+        sum += c[i].Price;
+    }
+
+    return sum;
 }
 
 

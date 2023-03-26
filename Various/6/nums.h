@@ -4,4 +4,4 @@
 #include <cmath>
 #include <string>
 
-int ToBase10(std::string number, int base);
+std::string to_n(int num, int base);
