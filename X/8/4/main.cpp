@@ -8,6 +8,9 @@ struct Answer {
     double Res;
 };
 
+double factorial(int n);
+double next(int x, int n);
+
 double Solve(double x);
 double Solve(double x, int n);
 Answer Solve(double x, double eps);
@@ -15,15 +18,16 @@ Answer Solve(double x, double eps);
 
 int main() {
 
-    auto res = Solve(0.0005, 0.000001);
+    cout << Solve(0) << endl;
+    cout << Solve(0, 100) << endl;
 
-    cout << res.K << endl;
-    cout << res.Res << endl;
+    auto answ = Solve(3, 0.1);
+    cout << answ.K << endl;
+    cout << answ.Res << endl;
 
-    res = Solve(0.0005, 0.01);
-    
-    cout << res.K << endl;
-    cout << res.Res << endl;
+    answ = Solve(3, 0.001);
+    cout << answ.K << endl;
+    cout << answ.Res << endl;
 
     return 0;
 }
@@ -36,7 +40,7 @@ double Solve(double x, int n) {
     double res = 0.0;
 
     for (int i = 0; i < n; i++) {
-        res = res + ((-1 * x * x) / (i + 1));
+        res += next(x, i);
     }
 
     return res;
@@ -44,17 +48,29 @@ double Solve(double x, int n) {
 
 Answer Solve(double x, double eps) {
     int k = 0, i = 0;
-    double res = 0.0;
+    double res = 0.0, nxt = 0.0;
 
     while (1) {
-        if (abs(res + ((-1 * x * x) / (i + 1))) > eps) {
-            break;
-        }
-
-        res = res + ((-1 * x * x) / (i + 1));
+        nxt = next(x, i);
+        res = res + nxt;
         i++;
         k++;
+
+        if (abs(res) <= eps) {
+            return Answer{k, res};
+        }
     }
 
     return Answer{k, res};
+}
+
+double factorial(int n) {
+    if (n <= 1) {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}
+
+double next(int x, int n) {
+    return (pow(-1, n) * (pow(x, 2 * n))) / factorial(n);
 }

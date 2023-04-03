@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <iomanip>
 
 using namespace std;
 
@@ -10,8 +11,14 @@ double MathFunc(double x)
 
 void Solver(int minRange, int maxRange, double(*MathFunc)(double)) {
     
-    for (double x = minRange; x <= maxRange; x += 0.010) {
-        cout << MathFunc(x) << endl;
+    for (double x = minRange; x <= maxRange; x += 0.0001) {
+        if (x >= 3.2300) {
+            if (MathFunc(x) <= 0.001) {
+                cout << "x = " << fixed << setprecision(4) << x << endl;
+                cout << "f(x) = " << MathFunc(x) << endl;
+                break;
+            }
+        }
     }
 }
 
