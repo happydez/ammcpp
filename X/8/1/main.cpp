@@ -9,8 +9,9 @@ double  ArrayAvg(double* arr, int n);
 int main() {
 
     int* nums = new int[9]{-1, 0, -2, 0, -3, 0, -4, 0, -5};
+    float* nums_f = new float[9]{-1, 0, -2, 0, -3, 0, -4, 0, -5};
 
-    cout << "Result: " << ArrayAvg(nums, 9) << endl;
+    cout << "Result: " << ArrayAvg(nums_f, 9) << endl;
 
     return 0;
 }

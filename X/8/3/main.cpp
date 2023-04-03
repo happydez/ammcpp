@@ -4,27 +4,50 @@
 
 using namespace std;
 
-double MathFunc(double x)
-{
+struct Answ {
+    int N;
+    double x;
+};
+
+double MathF(double x) {
     return 3 * x - 4 * log(x) - 5;
 }
 
-void Solver(int minRange, int maxRange, double(*MathFunc)(double)) {
+double MathFunc(double x)
+{
+    // x - m * f(x)
+    // x = x - m(3 * x - 4 * log(x) - 5)
+    // x'= 3 - 4/x
+    // x = x - 0.1 * (3 * x - 4 * log(x) - 5) = 0
+    return x - 0.52900 * (3. * x - 4.0 * log(x) - 5.0);
+}
+
+Answ Solver(double a, double b, double eps, double(*MathFunc)(double)) {
+
+    int i = 1;
+    double x = 0;
+    double xk = b;
     
-    for (double x = minRange; x <= maxRange; x += 0.0001) {
-        if (x >= 3.2300) {
-            if (MathFunc(x) <= 0.001) {
-                cout << "x = " << fixed << setprecision(4) << x << endl;
-                cout << "f(x) = " << MathFunc(x) << endl;
-                break;
-            }
-        }
+    x = MathFunc(xk);
+
+    while (fabs(x - xk) > eps)
+    {
+        x = MathFunc(xk);
+        xk = x;
+        i++;
     }
+
+    return Answ{i, x};
 }
 
 int main() {
 
-    Solver(2, 4, MathFunc);
+    auto answ = Solver(2., 4., 0.0001, MathFunc);
+
+    cout << "N = " << answ.N << endl;
+    cout << "x = " << answ.x << endl;
+
+    cout <<MathF(answ.x) << endl;
 
     return 0;
 }

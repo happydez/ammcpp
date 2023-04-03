@@ -48,5 +48,6 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "xstring": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }

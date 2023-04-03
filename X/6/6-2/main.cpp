@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <string>
 
 using namespace std;
 
@@ -16,13 +17,13 @@ int main() {
     // Answer in 7 base
 
     // input: 57 122
-    // output: 1160 / 434
+    // output: 10301 / 2549
 
     string A, B;
     cout << "Enter A >> "; cin >> A;
     cout << "Enter B >> "; cin >> B;
 
-    int result = ToBase10(A, 8) * 2 + ToBase10(B, 3) * 3 + ToBase10(B, 3) * ToBase10(B, 3);
+    int result = ToBase10(A, 8) * ToBase10(A, 8) + ToBase10(B, 3) * 3 + ToBase10(B, 3) * ToBase10(B, 3);
     cout << "Result in 7 base = " << ToBaseN(result, 7) << endl;
     cout << "Result in 10 base = " << result << endl;
 

@@ -8,13 +8,21 @@ double Solve(int n) {
     return 0.2 + Solve(n - 1);
 }
 
+double SolveIter(int n) {
+    double res = 5.0;
+
+    for (int i = 0; i < n; i++) {
+        res += 0.2;
+    }
+
+    return res;
+}
+
 int main() {
 
-    cout << Solve(1) << endl;
-    cout << Solve(2) << endl;
-    cout << Solve(3) << endl;
-    cout << Solve(4) << endl;
-    cout << Solve(5) << endl;
+    cout << SolveIter(4) << endl;
+
+
 
     return 0;
 }

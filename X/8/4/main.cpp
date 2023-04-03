@@ -21,9 +21,13 @@ int main() {
     cout << Solve(0) << endl;
     cout << Solve(0, 100) << endl;
 
+    cout << string(32, '-') << endl;
+
     auto answ = Solve(3, 0.1);
-    cout << answ.K << endl;
-    cout << answ.Res << endl;
+    cout << "k1 = " << answ.K << endl;
+    cout << "answ1 = " << answ.Res << endl;
+
+    cout << string(32, '-') << endl;
 
     answ = Solve(3, 0.001);
     cout << answ.K << endl;
