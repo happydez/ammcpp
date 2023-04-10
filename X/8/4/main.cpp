@@ -8,30 +8,71 @@ struct Answer {
     double Res;
 };
 
-double factorial(int n);
-double next(int x, int n);
-
 double Solve(double x);
 double Solve(double x, int n);
 Answer Solve(double x, double eps);
 
 
+//     const int MaxIter = 500; // максимально допустимое кол-во итераций
+//     double x, eps;
+//     double ch, y;
+
+//     cout << "x >> "; cin >> x;
+//     cout << "eps >> "; cin >> eps;
+
+//     bool done = true;
+//     ch = 1; y = ch; // первый член ряда и начальное значение суммы
+
+//     for (int n = 0; fabs(ch) > eps; n++) {
+//         ch = ch * ((-1 * x * x) / (n + 1)); // очередной член ряда
+//         y += ch; // добавление члена ряда к сумме
+//         if (n > MaxIter) {
+//             cout << endl << "The row diverges" << endl;
+//             done = false;
+//             break;
+//         }
+//     }
+
+//     if (done) {
+//         cout << "f(x) = " << y << ", for x = " << x << endl;
+//     }
+
+//     cout << Solve(2.5) << endl;
+
+void line() {
+    cout << string(32, '-') << endl;
+}
+
 int main() {
 
-    cout << Solve(0) << endl;
-    cout << Solve(0, 100) << endl;
+    // x = 2.5
+    // eps = 0.0001
 
-    cout << string(32, '-') << endl;
+    int n = 500;
 
-    auto answ = Solve(3, 0.1);
-    cout << "k1 = " << answ.K << endl;
-    cout << "answ1 = " << answ.Res << endl;
+    double x = 2.5;
+    double eps_1 = 0.00001;
+    double eps_2 = 0.0000001;
 
-    cout << string(32, '-') << endl;
+    cout << "x = 2.5" << endl;
+    cout << "eps_1 = 0.01" << endl;
+    cout << "eps_2 = 0.0001" << endl;
 
-    answ = Solve(3, 0.001);
-    cout << answ.K << endl;
-    cout << answ.Res << endl;
+    line();
+
+    cout << "1. Lib function = " << Solve(x) << endl;
+
+    line();
+
+    cout << "2. Teylor function = " << Solve(x, n) << endl;
+
+    line();
+
+    auto res1 = Solve(x, eps_1);
+    auto res2 = Solve(x, eps_2);
+
+    cout << "3. Eps function with eps_1 = " << res1.Res << " / K = " << res1.K << endl;
+    cout << "3. Eps function with eps_2 = " << res2.Res << " / K = " << res2.K << endl;
 
     return 0;
 }
@@ -41,40 +82,27 @@ double Solve(double x) {
 }
 
 double Solve(double x, int n) {
-    double res = 0.0;
+    double ch, y;
+    ch = 1; y = ch;
 
     for (int i = 0; i < n; i++) {
-        res += next(x, i);
+        ch = ch * ((-1 * x * x) / (i + 1)); // очередной член ряда
+        y += ch; // добавление члена ряда к сумме
     }
 
-    return res;
+    return y;
 }
 
 Answer Solve(double x, double eps) {
-    int k = 0, i = 0;
-    double res = 0.0, nxt = 0.0;
+    int k = 0;
+    double ch, y;
+    ch = 1; y = ch;
 
-    while (1) {
-        nxt = next(x, i);
-        res = res + nxt;
-        i++;
+    for (int n = 0; fabs(ch) > eps; n++) {
         k++;
-
-        if (abs(res) <= eps) {
-            return Answer{k, res};
-        }
+        ch = ch * ((-1 * x * x) / (n + 1)); // очередной член ряда
+        y += ch; // добавление члена ряда к сумме
     }
 
-    return Answer{k, res};
-}
-
-double factorial(int n) {
-    if (n <= 1) {
-        return 1;
-    }
-    return n * factorial(n - 1);
-}
-
-double next(int x, int n) {
-    return (pow(-1, n) * (pow(x, 2 * n))) / factorial(n);
+    return Answer{k, y};
 }
