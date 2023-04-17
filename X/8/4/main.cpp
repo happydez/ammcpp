@@ -48,7 +48,7 @@ int main() {
     // x = 2.5
     // eps = 0.0001
 
-    int n = 500;
+    int n = 50;
 
     double x = 2.5;
     double eps_1 = 0.00001;

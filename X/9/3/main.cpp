@@ -118,7 +118,7 @@ double RyngeKytt(double& x0, double& t0, double dt, mathfunc mf, int i)
 			k3 = dt * mf(x + k2 / 2, t + dt / 2);
 			k4 = dt * mf(x + k3, t + dt);
 
-			x = x + (k1 + k2 + k3 + k4) / 6;
+			x = x + (k1 + 2 * k2 + 2 * k3 + k4) / 6;
 			t = t + dt;
 
 		} while (t < (t0 + dt * i));
@@ -144,7 +144,7 @@ double RyngeKyttRecursion(double& x0, double& t0, double dt, mathfunc mf, int i)
 		k3 = dt * mf(x + k2 / 2, t + dt / 2);
 		k4 = dt * mf(x + k3, t + dt);
 
-		return x + (k1 + k2 + k3 + k4) / 6;
+		return x + (k1 + 2 * k2 + 2 * k3 + k4) / 6;
 	}
 }
 

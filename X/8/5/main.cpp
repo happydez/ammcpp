@@ -21,6 +21,7 @@ struct Answ {
 double SolveFunc(double t);
 double SolveFuncD1(double t);
 double SolveFuncD2(double t);
+double IterSolveFunc(double t);
 
 Answ IterSolve(double t0, double t1, double eps, double(*SolveFunc)(double));
 Answ NewtonSolve(double t0, double t1, double eps, double(*SolveFunc)(double));
@@ -30,22 +31,26 @@ inline void line() { cout << string(32, '-') << endl; };
 
 int main() {
 
-    auto answ = IterSolve(0, 15, EPS, SolveFunc);
+    auto answ = IterSolve(9.5, 12, EPS, IterSolveFunc);
     cout << "Iter method: i = " << answ.Iters << ", result = " << answ.Result << endl;
     cout << "f(x) ~ " << SolveFunc(answ.Result) << endl;
     line();
 
-    answ = NewtonSolve(0, 15, EPS, SolveFunc);
+    answ = NewtonSolve(9.5, 12, EPS, SolveFunc);
     cout << "Newton method: i = " << answ.Iters << ", result = " << answ.Result << endl;
     cout << "f(x) ~ " << SolveFunc(answ.Result) << endl;
     line();
 
-    answ = HalfDivision(0, 15, EPS, SolveFunc);
+    answ = HalfDivision(9.5, 12, EPS, SolveFunc);
     cout << "HalfDiv method: i = " << answ.Iters << ", result = " << answ.Result << endl;
     cout << "f(x) ~ " << SolveFunc(answ.Result) << endl;
     line();
 
     return 0;
+}
+
+double IterSolveFunc(double t) {
+    return t + A * sin(sqrt(k / m) * t + f0);
 }
 
 double SolveFunc(double t) {
