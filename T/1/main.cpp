@@ -1,40 +1,33 @@
 #include <iostream>
 #include <ctime>
+#include <cmath>
 
 using namespace std;
 
-int str_equals(int** a, const int m, const int n)
-{
-    int i, j, count, line = -1, maxcount = 0;
-    for (i = 0; i < m; i++)
-    {
-        count = 0;
-        for (j = 0; j <= n - 2; j++)
-        {
-            if (*(*(a + i) + j) == *(*(a + i) + j + 1))
-            {
-                count++;
-            }
-            else
-            {
-                if (count > maxcount)
-                {
-                    maxcount = count;
-                    line = i;
-                }
-                count = 0;
-            }
-        }
-        if (count > maxcount)
-        {
-            maxcount = count;
-            line = i;
-        }
-    }
-    return line;
-}
+int sum(const int* mas, const int n);
+void print(const int* mas, const int n);
+int const n = 5;
 
 int main() {
-    
+
+    int marks[n] = {3, 4, 5, 4, 4};
+    cout << "sum: " << sum(marks, n) << endl;
+    print(marks, n);
+
     return 0;
+}
+
+int sum(const int* mas, const int n) {
+    int s = 0;
+    for (int i = 0; i < n; i++) {
+        s += mas[i];
+    }
+    return s;
+}
+
+void print(const int* mas, const int n) {
+    for (int i = 0; i < n; i++) {
+        cout << mas[i] << " ";
+    }
+    cout << "\n";
 }
