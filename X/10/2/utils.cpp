@@ -65,9 +65,35 @@ void MatrixTranspose(double**& matrix, int& m, int& n) {
 }
 
 double** AlgbMatrix(double** matrix, int n, int m) {
-    auto algb = new double*[m];
+    auto algb = new double*[n];
     for (int i = 0; i < n; i++) {
         algb[i] = new double[m];
+    }
+
+    int e = 1;
+    
+    // a00 a01 a02
+    // a10 a11 a12
+    // a20 a21 a22
+
+    algb[0][0] = matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1];
+    algb[0][1] = -1 * (matrix[1][0] * matrix[2][2] - matrix[2][0] * matrix[1][2]);
+    algb[0][2] = matrix[1][0] * matrix[2][1] - matrix[2][0] * matrix[1][1];
+    algb[1][0] = -1 * (matrix[0][1] * matrix[2][2] - matrix[0][2] * matrix[2][1]);
+    algb[1][1] = matrix[0][0] * matrix[2][2] - matrix[2][0] * matrix[0][2];
+    algb[1][2] = -1 * (matrix[0][0] * matrix[2][1] - matrix[2][0] * matrix[0][1]);
+    algb[2][0] = matrix[0][1] * matrix[1][2] - matrix[1][1] * matrix[0][2];
+    algb[2][1] = -1 * (matrix[0][0] * matrix[1][2] - matrix[1][0] * matrix[0][2]);
+    algb[2][2] = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+
+    return algb;
+}
+
+void MatrixMultiply(double** matrix, int n, int m, int delta) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            matrix[i][j] *= delta;
+        }
     }
 }
 
@@ -92,6 +118,25 @@ double** MatrixMultiply(double** matrixA, int mA, int nA, double** matrixB, int 
 	}
 
 	return nullptr;
+}
+
+void InverseMatrix(double** matrix, int n, int m) {
+    int det = FindDetermenant(matrix, n);
+    MatrixTranspose(matrix, n, m);
+    auto algb = AlgbMatrix(matrix, n, m);
+    ShowArr(algb);
+    MatrixMultiply(algb, n, m, det);
+    
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            matrix[i][j] = algb[i][j];
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        delete [] algb[i];
+    }
+    delete [] algb;
 }
 
 bool IsValidIndexes(int m, int n) {

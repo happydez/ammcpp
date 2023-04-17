@@ -10,9 +10,12 @@ int main() {
         }
     }
 
-    int n = 3;
-    MatrixTranspose(m, n, n);
+    // 3 2 -4
+    // 2 -3 1
+    // -1 5 -3
 
+    int n = 3;
+    InverseMatrix(m, n, n);
     ShowArr(m, n, n);
 
 
