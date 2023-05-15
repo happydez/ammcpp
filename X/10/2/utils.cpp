@@ -68,6 +68,7 @@ double** AlgbMatrix(double** matrix, int n, int m) {
     auto algb = new double*[n];
     for (int i = 0; i < n; i++) {
         algb[i] = new double[m];
+        
     }
 
     int e = 1;
