@@ -69,6 +69,7 @@ double** AlgbMatrix(double** matrix, int n, int m) {
     for (int i = 0; i < n; i++) {
         algb[i] = new double[m];
         
+<<<<<<< HEAD
     }
 
     int e = 1;
@@ -95,6 +96,8 @@ void MatrixMultiply(double** matrix, int n, int m, int delta) {
         for (int j = 0; j < m; j++) {
             matrix[i][j] *= delta;
         }
+=======
+>>>>>>> main
     }
 }
 

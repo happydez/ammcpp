@@ -1,24 +1,29 @@
 #include <iostream>
-<<<<<<< HEAD
-#include <io.h>
-#include <fcntl.h>
-=======
-#include <fstream>
-#include <string>
->>>>>>> dea86dc (X/11 completed)
+#include <ctime>
+#include <cmath>
 
 using namespace std;
 
 int main() {
 
-<<<<<<< HEAD
-    _setmode(_fileno(stdout), _O_U16TEXT);
-    std::wcout << L"Hello, ❤\n";
+    int marks[n] = {3, 4, 5, 4, 4};
+    cout << "sum: " << sum(marks, n) << endl;
+    print(marks, n);
 
     return 0;
 }
 
-=======
-    return 0;
+int sum(const int* mas, const int n) {
+    int s = 0;
+    for (int i = 0; i < n; i++) {
+        s += mas[i];
+    }
+    return s;
 }
->>>>>>> dea86dc (X/11 completed)
+
+void print(const int* mas, const int n) {
+    for (int i = 0; i < n; i++) {
+        cout << mas[i] << " ";
+    }
+    cout << "\n";
+}
