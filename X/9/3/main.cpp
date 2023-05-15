@@ -18,7 +18,7 @@ double Eiler(double& x0, double& t0, double dt, mathfunc mf, int i) {
         do {
             x = x + dt * mf(x, t);
             t = t + dt;
-        } while (t < (t0 + dt * i));
+        } while (t < t0 + dt * i);
     }
 
     return x;
@@ -155,7 +155,7 @@ int main()
 	double t0 = 0, tk = 0.1;
 	double x0 = 0.1, n = 0;
 
-	for (double dt = 0.01; dt <= 0.25; dt *= 5) 
+	for (double dt = 0.01; dt <= 0.25; dt *= 5.) 
 	{
         cout << "\n dt = " << dt << endl;
 
@@ -167,7 +167,7 @@ int main()
 
         cout << string(166, '-') << endl;
 
-		for (int i = 0; i < 1 + (tk - t0)/dt; i++) 
+		for (int i = 0; i < (tk - t0)/dt; i++) 
 		{
 			cout << " " << setw(3) << left << i << " | " << setw(8) << (t0 + i * dt)
 				<< " | " << setw(11) << Eiler(x0, t0, dt, MathFunc, i)

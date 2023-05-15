@@ -1,5 +1,3 @@
-#define _UTILS_
-
 #include <iostream>
 #include <cmath>
 

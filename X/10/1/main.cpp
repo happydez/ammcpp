@@ -10,11 +10,23 @@ int main() {
     }
 
     cout << "Input matrix: " << endl;
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            cin >> matrix[i][j];
-        }
+    int inp[3];
+    for (int i = 0; i < 3; i++) {
+        cin >> inp[i];
     }
+
+    matrix[0][0] = inp[0] * inp[0];
+    matrix[0][1] = inp[0];
+    matrix[0][2] = 1;
+
+    matrix[1][0] = inp[1] * inp[1];
+    matrix[1][1] = inp[1];
+    matrix[1][2] = 1;
+
+    matrix[2][0] = inp[2] * inp[2];
+    matrix[2][1] = inp[2];
+    matrix[2][2] = 1;
+    
     cout << endl;
 
     double* vec = new double[n];
@@ -29,7 +41,7 @@ int main() {
     ShowArr(result, n);
 
     double tmp = 74;
-    double res = result[0] + result[1] * tmp + result[2] * tmp * tmp;
+    double res = result[0] * tmp * tmp + result[1] * tmp + result[2];
     cout << endl;
 
     cout << "Control temperature: " << tmp << endl;

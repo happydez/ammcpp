@@ -1,6 +1,4 @@
-#ifndef _UTILS_
 #include "utils.h"
-#endif
 
 int FindDetermenant(double** a, int n) {
     if (n == 1) {
@@ -69,7 +67,6 @@ double** AlgbMatrix(double** matrix, int n, int m) {
     for (int i = 0; i < n; i++) {
         algb[i] = new double[m];
         
-<<<<<<< HEAD
     }
 
     int e = 1;
@@ -96,8 +93,6 @@ void MatrixMultiply(double** matrix, int n, int m, int delta) {
         for (int j = 0; j < m; j++) {
             matrix[i][j] *= delta;
         }
-=======
->>>>>>> main
     }
 }
 
@@ -128,7 +123,7 @@ void InverseMatrix(double** matrix, int n, int m) {
     int det = FindDetermenant(matrix, n);
     MatrixTranspose(matrix, n, m);
     auto algb = AlgbMatrix(matrix, n, m);
-    ShowArr(algb);
+    ShowArr(algb, n, m);
     MatrixMultiply(algb, n, m, det);
     
     for (int i = 0; i < n; i++) {
