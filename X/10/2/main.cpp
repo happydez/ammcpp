@@ -1,86 +1,63 @@
 #include "utils.h"
+#include <string>
+#include <iomanip>
 
-void Chosen(const float w[],const float u[],float *res) {
-	float** matr = new float* [2];
-	for (int i = 0; i < 2; i++) {
-		matr[i] = new float[2];
-	}
-	float quv[2];
-	for (int i = 0; i < 2; i++) {
-		quv[i] = u[i] * 6 * w[i];
-	}
-	matr[0][0] = 6 * w[0];
-	matr[1][0] = 6 * w[1];
-	matr[0][1] = d;
-	matr[1][1] = d;
-	Cramer(matr, quv, res);
-	//cout << res[0] << " " << res[1] << endl;;
-	
-}
-
-void Mid(const float w[],const float u[], float *res) {
-	float** matr = new float* [2];
-	for (int i = 0; i < 2; i++) {
-		matr[i] = new float[2];
-	}
-	matr[0][0] = 3;
-	matr[1][0] = 3;
-	matr[0][1] = matr[1][1] = 0;
-	float quv[2];
-	quv[0] = quv[1] = 0;
-	for (int i = 0; i < 3; i++) {
-		matr[0][1] += d / (6 * w[i]);
-		matr[1][1] += d / (6 * w[3+i]);
-		quv[0] += u[i]; //cout << " " << u[i];
-		quv[1] += u[3 + i]; 
-		//cout << endl;
-	}
-	//cout << quv[0] <<" " << quv[1] << endl;
-	//ShowMatr(matr, 2, 2);
-	Cramer(matr, quv, res);
-}
-
-void Quad(const float w[], const float u[], float* res) {
-	float** matr = new float* [2];
-	for (int i = 0; i < 2; i++) {
-		matr[i] = new float[2];
-	}
-	float quv[2];
-	quv[0] = quv[1] = 0;
-	matr[0][0] = matr[1][0] = matr[0][1] = matr[1][1] = 0;
-	for (int i = 0; i < 7; i++) {
-		matr[0][0] ++;
-		matr[0][1] += d / (6 * w[i]);
-		matr[1][0] += d / (6 * w[i]);
-		matr[1][1] += pow(d / (6 * w[i]), 2);
-		quv[0] += u[i];
-		quv[1] += u[i] * d / (6 * w[i]);
-	}
-	Cramer(matr, quv, res);
+double mathfunc(double t, double a0, double a1, double a2) {
+	return a0 + a1 * t + a2 * t * t;
 }
 
 int main() {
+	double tvec[6] = {1., 5., 10., 15., 20., 40.};
+	double Tvec[6] = {300., 297., 297., 300., 301., 305.};
+	
+    auto X1 = SelectedPointsMethod(tvec[0], tvec[1], tvec[2], Tvec[0], Tvec[1], Tvec[2]);
+	cout << "\nSelectedPointsMethod Xvec:" << endl;
+    ShowArr(X1, 3, 1, false);
 
-    auto m = new double*[3];
-    for (int i = 0; i < 3; i++) {
-        m[i] = new double[3];
-        for (int j = 0; j < 3; j++) {
-            cin >> m[i][j];
-        }
+	auto X2 = AverageMethod(tvec, Tvec, 6);
+	cout << "\nAverageMethod Xvec:" << endl;
+    ShowArr(X2, 3, 1, false);
+
+	auto X3 = LeastSquaresMethod(tvec, Tvec, 6);
+	cout << "\nLeastSquaresMethod Xvec:" << endl;
+    ShowArr(X3, 3, 1, false);
+
+	cout << endl;
+
+	double d1, d2, d3;
+	d1 = d2 = d3 = 0.0;
+
+	cout << string(58, '-') << endl;
+	cout << " i  |   x   |  f(x) |  SPoints  |  Average  | LSquares   |" << endl;
+	cout << string(58, '-') << endl;
+	for (int i = 0; i < 6; i++) {
+		d1 += abs(mathfunc(tvec[i], X1[0][0], X1[1][0], X1[2][0]) - Tvec[i]);
+		d2 += abs(mathfunc(tvec[i], X2[0][0], X2[1][0], X2[2][0]) - Tvec[i]);
+		d3 += abs(mathfunc(tvec[i], X3[0][0], X3[1][0], X3[2][0]) - Tvec[i]);
+
+		cout << setw(3) << i + 1 << " | " << setw(5) << tvec[i] << " | " << setw(5) << Tvec[i] << " | ";
+		cout << setw(9) << mathfunc(tvec[i], X1[0][0], X1[1][0], X1[2][0]) << " | ";
+		cout << setw(9) << mathfunc(tvec[i], X2[0][0], X2[1][0], X2[2][0]) << " | ";
+		cout << setw(9) << mathfunc(tvec[i], X3[0][0], X3[1][0], X3[2][0]) << " | ";
+		cout << endl;
+	}
+
+	d1 = d1 / (6 * abs(Tvec[5] - Tvec[1])) * 100;
+	d2 = d2 / (6 * abs(Tvec[5] - Tvec[1])) * 100;
+	d3 = d3 / (6 * abs(Tvec[5] - Tvec[1])) * 100;
+
+	cout << string(58, '-') << endl;
+	cout << " Delta" << setw(25) << d1 << " " << setw(10) << d2 << " " << setw(12) << d3;
+	cout << endl << endl;
+
+	for (int i = 0; i < 3; i++) {
+		delete [] X1[i];
+		delete [] X2[i];
+		delete [] X3[i];
     }
-
-    // 3 2 -4
-    // 2 -3 1
-    // -1 5 -3
-
-    int n = 3;
-    InverseMatrix(m, n, n);
-    ShowArr(m, n, n);
-
-    for (int i = 0; i < 3; i++) {
-        delete [] m[i];
-    }
-    delete [] m;
+	delete [] X1;
+	delete [] X2;
+	delete [] X3;
 
     return 0;
 }

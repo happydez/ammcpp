@@ -1,0 +1,3 @@
+Command_3 City_3 10 75.000000
+Command_2 City_2 10 110.000000
+Command_1 City_1 10 100.000000

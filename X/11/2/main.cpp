@@ -1,8 +1,10 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>
-#include <string>
-#include <fstream>
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <cstdio>
+#include <string>
 #include <vector>
 
 using namespace std;
@@ -35,6 +37,23 @@ struct SportCommand {
     }
 };
 
+SportCommand StringToSportCommand(string data) {
+    int next = 0;
+
+    string name = data.substr(next, data.find_first_of(' ', next));
+    next = data.find_first_of(' ', next) + 1;
+
+    string city = data.substr(next, data.find_first_of(' ', next) - next);
+    next = data.find_first_of(' ', next) + 1;
+
+    int players = stoi(data.substr(next, data.find_first_of(' ', next) - next));
+    next = data.find_first_of(' ', next) + 1;
+
+    float points = stof(data.substr(next));
+
+    return SportCommand(name, city, players, points);
+}
+
 enum Menu {Create, Open, Delete, Add, Show, Exit};
 
 Menu ShowMenu() {
@@ -60,25 +79,62 @@ Menu ShowMenu() {
     }
 }
 
+int BinFileSize(FILE* fstream) {
+    if (fstream == NULL) return -1;
+
+    int n = 0;
+    char temp;
+    while (!feof(fstream)) {
+        fscanf(fstream, "%c", &temp);
+        n++;
+    }
+
+    return n - 1;
+}
+
 bool CreateFile(string path) {
-    FILE* f;
-    fopen_s(&f, path.c_str(), "ab+");
+    FILE* f = fopen(path.c_str(), "a");
 
     if (f == NULL) {
         return false;
     }
-
     fclose(f);
+
     return true;
 }
 
 bool OpenFile(string path) {
-    FILE* f;
-    fopen_s(&f, path.c_str(), "rb+");
+    FILE* f = fopen(path.c_str(), "r");
 
     if (f == NULL) {
         return false;
     }
+    fclose(f);
+
+    return true;
+}
+
+bool ShowFile(string path) {
+    if (path == "") {
+        return false;
+    }
+
+    FILE* f = fopen(path.c_str(), "r");
+
+    if (f == NULL) {
+        return false;
+    }
+
+    if (BinFileSize(f) == 0) {
+        return true;
+    }
+
+    char temp;
+    while (!feof(f)) {
+        fscanf(f, "%c", &temp);
+        cout << temp;
+    }
+    cout << endl;
 
     fclose(f);
     return true;
@@ -89,23 +145,36 @@ bool AddToFile(string path, string data) {
         return false;
     }
 
-    FILE* f;
-    fopen_s(&f, path.c_str(), "rb+");
+    FILE* f = fopen(path.c_str(), "r");
 
-    char *buffer = new char[1000000];
-    f.read(buffer, 1000000);
+    if (f == NULL) {
+        return false;
+    }
 
-    // string line;
-    // string buffer;
-    // while (getline(file, line)) {
-    //     buffer += line + "\n";
-    // }
+    string buffer = "";
+    if (BinFileSize(f) > 0) {
+        char str[512];
 
-    file.close();
-    file.open(path, ios::out);
+        while (!feof(f)) {
+            fgets(str, 512, f);
+            buffer += string(str);
+        }
 
-    file << data + "\n" + buffer;
-    file.close();
+        buffer = data + "\n" + buffer;
+    } else {
+        buffer = data;
+    }
+
+    fclose(f);
+
+    f = fopen(path.c_str(), "w+");
+
+    if (f == NULL) {
+        return false;
+    }
+
+    fputs(buffer.c_str(), f);
+    fclose(f);
 
     return true;
 }
@@ -115,46 +184,41 @@ bool DeleteFromFile(string path, float points) {
         return false;
     }
 
-    fstream file(path);
-    vector<SportCommand> cmds;
+    FILE* f = fopen(path.c_str(), "r+");
 
-    while (!file.eof())
-    {
-        SportCommand cmd;
-        file >> cmd.Name;
-        file >> cmd.City;
-        file >> cmd.Players;
-        file >> cmd.Points;
-
-        if (cmd.Points >= points) {
-            cmds.push_back(cmd);
-        }
-    }
-    file.close();
-
-    file.open(path, ios::out);
-    for (int i = 0; i < cmds.size(); i++) {
-        file << cmds[i].String() << endl;
-    }
-
-    file.close();
-    return true;
-}
-
-bool ShowFile(string path) {
-    if (path == "") {
+    if (f == NULL) {
         return false;
     }
 
-
-    fstream file(path);
-
-    string line;
-    while (getline(file, line)) {
-        cout << line << endl;
+    if (BinFileSize(f) == 0) {
+        fclose(f);
+        return true;
     }
 
-    file.close();
+    char str[256];
+    vector<SportCommand> cmds;
+    while (!feof(f)) {
+        fgets(str, 256, f);
+        cmds.push_back(StringToSportCommand(string(str)));
+    }
+
+    string buffer;
+    for (auto cmd : cmds) {
+        if (cmd.Points >= points) {
+            buffer += cmd.String() + "\n";
+        }
+    }
+    fclose(f);
+
+    f = fopen(path.c_str(), "w+");
+
+    if (f == NULL) {
+        return false;
+    }
+
+    fputs(buffer.c_str(), f);
+    fclose(f);
+
     return true;
 }
 
@@ -169,21 +233,26 @@ int main() {
         switch (cmd)
         {
         case Create: {
-            system("cls");
+            system("clear");
+
             string path;
             cout << "input file name >> "; cin >> path;
+
             if (CreateFile(path)) {
                 cout << "OK!" << endl;
             } else {
                 cout << "Error!" << endl;
                 return -1;
             }
+
             break;
         }
         case Open: {
-            system("cls");
+            system("clear");
+
             string path;
             cout << "input file name to open >> "; cin >> path;
+
             if (OpenFile(path)) {
                 cout << "OK!" << endl;
                 openPath = path;
@@ -191,18 +260,21 @@ int main() {
                 cout << "Error!" << endl;
                 return -1;
             }
+
             break;
         }
         case Add: {
-            system("cls");
+            system("clear");
+
             int n;
             cout << "Commands to add? >> "; cin >> n;
             if (n <= 0) {
                 cout << "invalid n" << endl;
                 return -1;
             }
+
             for (int i = 0; i < n; i++) {
-                system("cls");
+                system("clear");
                 SportCommand sc;
                 cout << "Name >> "; cin >> sc.Name;
                 cout << "City >> "; cin >> sc.City;
@@ -213,28 +285,36 @@ int main() {
                     return -1;
                 }
             }
+            system("clear");
+
             break;
         }
         case Delete: {
-            system("cls");
+            system("clear");
+
             float points;
             cout << "input filter point value >> "; cin >> points;
+
             if (points < 0.) {
                 cout << "invalid point value" << endl;
                 return -1;
             }
+
             if (!DeleteFromFile(openPath, points)) {
                 cout << "file doesn't open" << endl;
                 return -1;
             }
+
             break;
         }
         case Show: {
-            system("cls");
+            system("clear");
+
             if (!ShowFile(openPath)) {
                 cout << "file doesn't open" << endl;
                 return -1;
             }
+
             break;
         }
         default:
@@ -242,8 +322,6 @@ int main() {
         }
 
     } while (cmd != Exit);
-
-    AddToFile("data.txt", "SPT VRN 11 11");
 
     return 0;
 }

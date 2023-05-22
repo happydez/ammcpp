@@ -161,7 +161,7 @@ int main() {
         switch (cmd)
         {
         case Create: {
-            system("cls");
+            system("clear");
             string path;
             cout << "input file name >> "; cin >> path;
             if (CreateFile(path)) {
@@ -173,7 +173,7 @@ int main() {
             break;
         }
         case Open: {
-            system("cls");
+            system("clear");
             string path;
             cout << "input file name to open >> "; cin >> path;
             if (OpenFile(path)) {
@@ -186,7 +186,7 @@ int main() {
             break;
         }
         case Add: {
-            system("cls");
+            system("clear");
             int n;
             cout << "Commands to add? >> "; cin >> n;
             if (n <= 0) {
@@ -194,7 +194,7 @@ int main() {
                 return -1;
             }
             for (int i = 0; i < n; i++) {
-                system("cls");
+                system("clear");
                 SportCommand sc;
                 cout << "Name >> "; cin >> sc.Name;
                 cout << "City >> "; cin >> sc.City;
@@ -208,7 +208,7 @@ int main() {
             break;
         }
         case Delete: {
-            system("cls");
+            system("clear");
             float points;
             cout << "input filter point value >> "; cin >> points;
             if (points < 0.) {
@@ -222,7 +222,7 @@ int main() {
             break;
         }
         case Show: {
-            system("cls");
+            system("clear");
             if (!ShowFile(openPath)) {
                 cout << "file doesn't open" << endl;
                 return -1;
@@ -234,8 +234,6 @@ int main() {
         }
 
     } while (cmd != Exit);
-
-    AddToFile("data.txt", "SPT VRN 11 11");
 
     return 0;
 }
