@@ -161,7 +161,7 @@ int main() {
         switch (cmd)
         {
         case Create: {
-            system("clear");
+            system("cls");
             string path;
             cout << "input file name >> "; cin >> path;
             if (CreateFile(path)) {
@@ -173,7 +173,7 @@ int main() {
             break;
         }
         case Open: {
-            system("clear");
+            system("cls");
             string path;
             cout << "input file name to open >> "; cin >> path;
             if (OpenFile(path)) {
@@ -186,7 +186,7 @@ int main() {
             break;
         }
         case Add: {
-            system("clear");
+            system("cls");
             int n;
             cout << "Commands to add? >> "; cin >> n;
             if (n <= 0) {
@@ -194,7 +194,7 @@ int main() {
                 return -1;
             }
             for (int i = 0; i < n; i++) {
-                system("clear");
+                system("cls");
                 SportCommand sc;
                 cout << "Name >> "; cin >> sc.Name;
                 cout << "City >> "; cin >> sc.City;
@@ -208,7 +208,7 @@ int main() {
             break;
         }
         case Delete: {
-            system("clear");
+            system("cls");
             float points;
             cout << "input filter point value >> "; cin >> points;
             if (points < 0.) {
@@ -222,7 +222,7 @@ int main() {
             break;
         }
         case Show: {
-            system("clear");
+            system("cls");
             if (!ShowFile(openPath)) {
                 cout << "file doesn't open" << endl;
                 return -1;

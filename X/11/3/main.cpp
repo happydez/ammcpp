@@ -170,29 +170,45 @@ bool DeleteFromFile(string path, float points) {
         return false;
     }
 
-    fstream file(path);
+    fstream file(path, ios::binary | ios::in | ios::out);
+
+    file.seekg(0, ios::end);
+    int len = file.tellg();
+    file.seekg(0);
+
+    char tmp;
+    string cmd = "";
+    string buffer = "";
+
     vector<SportCommand> cmds;
 
-    while (!file.eof())
-    {
-        SportCommand cmd;
-        file >> cmd.Name;
-        file >> cmd.City;
-        file >> cmd.Players;
-        file >> cmd.Points;
-
-        if (cmd.Points >= points) {
-            cmds.push_back(cmd);
+    for (int i = 0; i < len; i++) {
+        file.read((char*)&tmp, sizeof(tmp));
+        buffer.push_back(tmp);
+        
+        if (tmp == '\n') {
+            cmds.push_back(StringToSportCommand(buffer));
+            buffer = "";
         }
     }
     file.close();
 
-    file.open(path, ios::out);
-    for (int i = 0; i < cmds.size(); i++) {
-        file << cmds[i].String() << endl;
-    }
+    fstream f(path, ios::out);
 
-    file.close();
+    for (int i = 0; i < cmds.size(); i++) {
+        if (cmds[i].Points >= points) {
+            auto cs = cmds[i].String();
+            for (int i = 0; i < cs.length(); i++) {
+                f.write((char*)&cs[i], sizeof(cs[i]));
+            }
+            if (i != cmds.size() - 1) {
+                char nw = '\n';
+                f.write((char*)&nw, sizeof(nw));
+            }
+        }
+    }
+    f.close();
+
     return true;
 }
 
@@ -231,7 +247,7 @@ int main() {
         switch (cmd)
         {
         case Create: {
-            system("clear");
+            system("cls");
             string path;
             cout << "input file name >> "; cin >> path;
             if (CreateFile(path)) {
@@ -243,7 +259,7 @@ int main() {
             break;
         }
         case Open: {
-            system("clear");
+            system("cls");
             string path;
             cout << "input file name to open >> "; cin >> path;
             if (OpenFile(path)) {
@@ -256,7 +272,7 @@ int main() {
             break;
         }
         case Add: {
-            system("clear");
+            system("cls");
             int n;
             cout << "Commands to add? >> "; cin >> n;
             if (n <= 0) {
@@ -264,7 +280,7 @@ int main() {
                 return -1;
             }
             for (int i = 0; i < n; i++) {
-                system("clear");
+                system("cls");
                 SportCommand sc;
                 cout << "Name >> "; cin >> sc.Name;
                 cout << "City >> "; cin >> sc.City;
@@ -278,7 +294,7 @@ int main() {
             break;
         }
         case Delete: {
-            system("clear");
+            system("cls");
             float points;
             cout << "input filter point value >> "; cin >> points;
             if (points < 0.) {
@@ -292,7 +308,7 @@ int main() {
             break;
         }
         case Show: {
-            system("clear");
+            system("cls");
             if (!ShowFile(openPath)) {
                 cout << "file doesn't open" << endl;
                 return -1;

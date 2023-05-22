@@ -119,13 +119,15 @@ bool ShowFile(string path) {
         return false;
     }
 
+    int blen = BinFileSize(fopen(path.c_str(), "rb"));
+
     FILE* f = fopen(path.c_str(), "r");
 
     if (f == NULL) {
         return false;
     }
 
-    if (BinFileSize(f) == 0) {
+    if (blen == 0) {
         return true;
     }
 
@@ -145,6 +147,8 @@ bool AddToFile(string path, string data) {
         return false;
     }
 
+    int blen = BinFileSize(fopen(path.c_str(), "rb"));
+
     FILE* f = fopen(path.c_str(), "r");
 
     if (f == NULL) {
@@ -152,7 +156,7 @@ bool AddToFile(string path, string data) {
     }
 
     string buffer = "";
-    if (BinFileSize(f) > 0) {
+    if (blen > 0) {
         char str[512];
 
         while (!feof(f)) {
@@ -184,13 +188,15 @@ bool DeleteFromFile(string path, float points) {
         return false;
     }
 
+    int blen = BinFileSize(fopen(path.c_str(), "rb"));
+
     FILE* f = fopen(path.c_str(), "r+");
 
     if (f == NULL) {
         return false;
     }
 
-    if (BinFileSize(f) == 0) {
+    if (blen == 0) {
         fclose(f);
         return true;
     }
@@ -233,7 +239,7 @@ int main() {
         switch (cmd)
         {
         case Create: {
-            system("clear");
+            system("cls");
 
             string path;
             cout << "input file name >> "; cin >> path;
@@ -248,7 +254,7 @@ int main() {
             break;
         }
         case Open: {
-            system("clear");
+            system("cls");
 
             string path;
             cout << "input file name to open >> "; cin >> path;
@@ -264,7 +270,7 @@ int main() {
             break;
         }
         case Add: {
-            system("clear");
+            system("cls");
 
             int n;
             cout << "Commands to add? >> "; cin >> n;
@@ -274,7 +280,7 @@ int main() {
             }
 
             for (int i = 0; i < n; i++) {
-                system("clear");
+                system("cls");
                 SportCommand sc;
                 cout << "Name >> "; cin >> sc.Name;
                 cout << "City >> "; cin >> sc.City;
@@ -285,12 +291,12 @@ int main() {
                     return -1;
                 }
             }
-            system("clear");
+            system("cls");
 
             break;
         }
         case Delete: {
-            system("clear");
+            system("cls");
 
             float points;
             cout << "input filter point value >> "; cin >> points;
@@ -308,7 +314,7 @@ int main() {
             break;
         }
         case Show: {
-            system("clear");
+            system("cls");
 
             if (!ShowFile(openPath)) {
                 cout << "file doesn't open" << endl;

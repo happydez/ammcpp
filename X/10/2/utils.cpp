@@ -191,6 +191,14 @@ double** LeastSquaresMethod(double* tvec, double* Tvec, int vlen) {
         v[2][0] += (Tvec[i] * tvec[i] * tvec[i]);
     }
 
+   // cout << "m:" << endl;
+   // ShowArr(m, 3, 3, false);
+   //
+   // cout << endl;
+   // 
+   // cout << "v:" << endl;
+   // ShowArr(v, 3, 1, false);
+
     return InverseMatrix(m, 3, 3, v);
 }
 
