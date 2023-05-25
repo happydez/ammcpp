@@ -31,19 +31,14 @@ int main() {
 	cout << " i  |   x   |  f(x) |  SPoints  |  Average  | LSquares   |" << endl;
 	cout << string(58, '-') << endl;
 	for (int i = 0; i < 6; i++) {
+		d1 += abs(mathfunc(tvec[i], X1[0][0], X1[1][0], X1[2][0]) - Tvec[i]);
 		d2 += abs(mathfunc(tvec[i], X2[0][0], X2[1][0], X2[2][0]) - Tvec[i]);
-		d3 += abs(mathfunc(tvec[i], X3[0][0], X3[1][0], X3[2][0]) + 97.5 - Tvec[i]);
+		d3 += abs(mathfunc(tvec[i], X3[0][0], X3[1][0], X3[2][0]) - Tvec[i]);
 
 		cout << setw(3) << i + 1 << " | " << setw(5) << tvec[i] << " | " << setw(5) << Tvec[i] << " | ";
-		if (i == 5) {
-			cout << setw(9) << 304.5 << " | ";
-			d1 += abs(304.5 - Tvec[i]);
-		} else  {
-			cout << setw(9) << mathfunc(tvec[i], X1[0][0], X1[1][0], X1[2][0]) << " | ";
-			d1 += abs(mathfunc(tvec[i], X1[0][0], X1[1][0], X1[2][0]) - Tvec[i]);
-		}
+		cout << setw(9) << mathfunc(tvec[i], X1[0][0], X1[1][0], X1[2][0]) << " | ";
 		cout << setw(9) << mathfunc(tvec[i], X2[0][0], X2[1][0], X2[2][0]) << " | ";
-		cout << setw(9) << mathfunc(tvec[i], X3[0][0], X3[1][0], X3[2][0]) + 97.5 << " | ";
+		cout << setw(9) << mathfunc(tvec[i], X3[0][0], X3[1][0], X3[2][0]) << " | ";
 		cout << endl;
 	}
 
@@ -52,7 +47,7 @@ int main() {
 	d3 = d3 / (6 * abs(Tvec[5] - Tvec[1])) * 100;
 
 	cout << string(58, '-') << endl;
-	cout << " Delta" << setw(25) << d1 << " " << setw(10) << d2 << " " << setw(12) << d3 - 1;
+	cout << " Delta" << setw(25) << d1 << " " << setw(10) << d2 << " " << setw(12) << d3;
 	cout << endl << endl;
 
 	for (int i = 0; i < 3; i++) {
