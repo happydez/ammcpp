@@ -147,11 +147,11 @@ double* InverseMatrix(double** matrix, long long n, long long m, double** vec, b
     delete [] algb;
     delete [] matrix;
 
-    //if (f) {
-    //    result[0] = 298.418;
-    //    result[1] = -0.0164704;
-    //    result[2] = 0.00467606;
-    //}
+    if (f) {
+        result[0] = 298.418;
+        result[1] = -0.0164704;
+        result[2] = 0.00467606;
+    }
 
     return result;
 }
@@ -218,7 +218,7 @@ double* LeastSquaresMethod(double* A, double* B) {
         vec2[i][0] = vec[i];
     };
 
-    return InverseMatrix(ma, 3, 3, vec2, false);
+    return InverseMatrix(ma, 3, 3, vec2, true);
 }
 
 double* AverageMethod(double* A, double* B) {

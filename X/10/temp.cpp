@@ -56,8 +56,9 @@ int main()
 
     d2 = d2 /(6. * abs(Tvec[5] - Tvec[1])) * 100;
     d3 = d3 /(6. * abs(Tvec[5] - Tvec[1])) * 100; 
-    d1 = d1 /(6. * abs(Tvec[5] - Tvec[1])) * 100;                                                                                         
-    d2 -= 10.0; d3 -= 10.0; d1 -= 10.0;
+    d1 = d1 /(6. * abs(Tvec[5] - Tvec[1])) * 100;                                                                                                {
+        d2 -= 10.0; d3 -= 10.0; d1 -= 10.0;
+    }
 
     cout << string(58, '-') << endl;
     cout << " Delta" << setw(25) << d1 << " " << setw(10) << d2 << " " << setw(12) << d3;
